@@ -11,8 +11,7 @@ import (
 	"path/filepath"
 )
 
-type manifest struct {
-	Name  string `json:"name"`
+type entry struct {
 	Hash  string `json:"hash"`
 	S3Key string `json:"s3key"`
 }
@@ -21,10 +20,9 @@ func main() {
 	var output string = os.Args[1]
 	dir := filepath.Dir(output)
 	files := os.Args[2:]
-	count := len(files)
-	hashes := make([]manifest, count)
+	manifest := map[string]entry{}
 	hasher := sha256.New()
-	for i, file := range files {
+	for _, file := range files {
 		f, err := os.Open(file)
 		if err != nil {
 			log.Fatal(err)
@@ -45,10 +43,10 @@ func main() {
 		if err := os.Rename(out.Name(), outputName); err != nil {
 			log.Fatalf("Error moving %s to %s: %s", out.Name(), outputName, err)
 		}
-		hashes[i] = manifest{Name: file, Hash: hash, S3Key: s3key}
+		manifest[file] = entry{Hash: hash, S3Key: s3key}
 		hasher.Reset()
 	}
-	j, err := json.MarshalIndent(hashes, "", "  ")
+	j, err := json.MarshalIndent(manifest, "", "  ")
 
 	if err != nil {
 		fmt.Printf("Error generating manifest: %s\n", err.Error())
