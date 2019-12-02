@@ -15,19 +15,20 @@
 """Public API exported here.
 """
 
-load("//:manifest.bzl", _lambda_manifest = "lambda_manifest")
+#load("//:manifest.bzl", _lambda_manifest = "lambda_manifest")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+#load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
-lambda_manifest = _lambda_manifest
+#lambda_manifest = _lambda_manifest
 
 def manifest_deps():
     """Pull in external Go packages needed by Go binaries in this repo.
     Pull in all dependencies needed to build the Go binaries in this
     repository.
     """
-    http_archive(
+    excludes = native.existing_rules().keys()
+    if "io_bazel_rules_go" not in excludes:
+        http_archive(
             name = "io_bazel_rules_go",
             sha256 = "b9aa86ec08a292b97ec4591cf578e020b35f98e12173bbd4a921f84f583aebd9",
             urls = [
@@ -35,7 +36,6 @@ def manifest_deps():
                 "https://github.com/bazelbuild/rules_go/releases/download/v0.20.2/rules_go-v0.20.2.tar.gz",
             ],
         )
-
-    go_rules_dependencies()
-    go_register_toolchains()
-    gazelle_dependencies()
+        load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+        go_rules_dependencies()
+        go_register_toolchains()

@@ -29,6 +29,12 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/0.18.2/bazel-gazelle-0.18.2.tar.gz"],
 )
 
-load("//:defs.bzl", "manifest_deps")
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+go_rules_dependencies()
+go_register_toolchains()
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+gazelle_dependencies()
 
-manifest_deps()
+#load("//:defs.bzl", "manifest_deps")
+
+#manifest_deps()
