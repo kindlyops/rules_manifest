@@ -48,7 +48,7 @@ def _docker_manifest_impl(ctx):
 docker_manifest = rule(
     implementation = _docker_manifest_impl,
     attrs = {
-        "srcs": attr.label_list(),
+        "srcs": attr.label_list(allow_files = True),
          "_manifester": attr.label(
             default = Label("//containermanifester:manifester"),
             allow_single_file = True,
