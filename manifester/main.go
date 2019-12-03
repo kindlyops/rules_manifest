@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type entry struct {
@@ -43,7 +44,12 @@ func main() {
 		if err := os.Rename(out.Name(), outputName); err != nil {
 			log.Fatalf("Error moving %s to %s: %s", out.Name(), outputName, err)
 		}
-		manifest[file] = entry{Hash: hash, S3Key: s3key}
+
+		// drop the first 3 path components so the keys are more logical and
+		// free of any build platform strings
+		parts := strings.Split(file, string(os.PathSeparator))
+		key := strings.Join(parts[3:], string(os.PathSeparator))
+		manifest[key] = entry{Hash: hash, S3Key: s3key}
 		hasher.Reset()
 	}
 	j, err := json.MarshalIndent(manifest, "", "  ")
