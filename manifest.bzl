@@ -13,6 +13,12 @@ def _lambda_manifest_impl(ctx):
 
 lambda_manifest = rule(
     implementation = _lambda_manifest_impl,
+    doc = """
+Builds a content-addressable artifact repo with manifest file.
+
+This is useful for collecting together one or more lambda zip artifacts and
+publishing them to S3 as content-addressed artifacts.
+""",
     attrs = {
         "srcs": attr.label_list(),
         "_manifester": attr.label(
@@ -69,7 +75,3 @@ docker_manifest = rule(
         "srcs": attr.label_list(),
     },
 )
-
-# TODO: move rules_manifest into a separate repo
-# look at rules docker to see how to build the manifester as an internal tool
-# used by the rules

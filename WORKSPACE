@@ -27,3 +27,15 @@ http_archive(
 )
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 gazelle_dependencies()
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "io_bazel_stardoc",
+    remote = "https://github.com/bazelbuild/stardoc.git",
+    commit = "4378e9b6bb2831de7143580594782f538f461180", # 0.4.0
+    shallow_since = "1570829166 -0400",
+)
+
+load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
+stardoc_repositories()

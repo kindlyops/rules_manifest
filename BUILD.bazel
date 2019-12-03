@@ -1,0 +1,9 @@
+load("//:manifest.bzl", "lambda_manifest")
+load("@io_bazel_stardoc//stardoc:stardoc.bzl", "stardoc")
+
+stardoc(
+    name = "docs",
+    input = "manifest.bzl",
+    out = "docs.md",
+    symbol_names = ["lambda_manifest"],
+)
