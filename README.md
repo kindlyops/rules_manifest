@@ -10,9 +10,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "com_kindlyops_rules_manifest",
-    urls = ["https://github.com/kindlyops/rules_manifest/archive/v0.1.0.tar.gz"],
-    strip_prefix = "rules_manifest-0.1.0",
-    sha256 = "99873d31226aa32dc025d651ca80628fbe2faa4e28d283436e0b82199200b7af",
+    urls = ["https://github.com/kindlyops/rules_manifest/archive/v0.2.1.tar.gz"],
+    strip_prefix = "rules_manifest-0.2.1",
+    sha256 = "476f374a5b125032ffdeca8541302fc87fb37207bba4792c4f4baa1e19ee5222",
 )
 
 load("@com_kindlyops_rules_manifest//:defs.bzl", "manifest_deps")
