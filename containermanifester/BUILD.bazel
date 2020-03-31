@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -11,4 +11,20 @@ go_binary(
     name = "manifester",
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    size = "small",
+    srcs = ["main_test.go"],
+    args = [
+        "-cli",
+        "$(location :manifester)",
+        "$(location test1.digest)",
+        "$(location test2.digest)",
+    ],
+    data = [":manifester", "test1.digest", "test2.digest"],
+    embed = [":go_default_library"],
+    rundir = ".",
+    deps = ["//vendor/github.com/bazelbuild/rules_go/go/tools/bazel:go_default_library"],
 )
