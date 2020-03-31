@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func main() {
@@ -18,8 +19,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-
-		serviceName := filepath.Base(filepath.Dir(file)) + "-service"
+		filename := filepath.Base(file)
+		serviceName := strings.TrimSuffix(filename, filepath.Ext(filename)) + "-service"
 		manifest[serviceName] = string(hash)
 	}
 	j, err := json.MarshalIndent(manifest, "", "  ")
