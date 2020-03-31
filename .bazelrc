@@ -10,5 +10,4 @@ build --symlink_prefix=dist/
 # This prevents accidentally depending on this feature, which Bazel will remove.
 build --nolegacy_external_runfiles
 
-# make bazel run more quieter
-run --experimental_ui_limit_console_output=1
+test --test_output=errors

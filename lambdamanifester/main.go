@@ -31,6 +31,9 @@ func main() {
 		defer f.Close()
 
 		out, err := ioutil.TempFile(dir, "manifest-temp-*.zip")
+		if err != nil {
+			log.Fatalf("Error opening temp file: %s\n", err)
+		}
 		outWriter := io.MultiWriter(out, hasher)
 
 		if _, err := io.Copy(outWriter, f); err != nil {
